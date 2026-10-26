@@ -1,8 +1,12 @@
-# BattleMaths
+<p align="center"><img src="docs/images/logo.png" alt="Salvo Sums" width="640"></p>
+
+# Salvo Sums
 
 A single-player Battleships game for iPhone and iPad where every shot is earned by answering a GCSE maths question. Play against the computer, sink its fleet, and learn from a worked explanation every time you get one wrong.
 
 See [docs/PLAN.md](docs/PLAN.md) for the full project plan.
+
+> The app is called **Salvo Sums**. The Xcode project, targets and folders still use the working name `BattleMaths`, which players never see.
 
 ## Requirements
 

@@ -25,7 +25,7 @@ struct GameView: View {
                 .frame(maxWidth: 1100)
                 .frame(maxWidth: .infinity)
             }
-            .navigationTitle("BattleMaths")
+            .navigationTitle("Salvo Sums")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {

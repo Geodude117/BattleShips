@@ -1,10 +1,10 @@
-# BattleMaths — iOS Project Plan
+# Salvo Sums — iOS Project Plan
 
 Oct 26, 2026 · @Geovan Inacay
 
 ## Overview
 
-BattleMaths is a single-player Battleships game for iPhone and iPad where every shot is earned by answering a GCSE maths question correctly. You play against a computer opponent, and v1 runs fully offline with no backend.
+Salvo Sums (working title BattleMaths) is a single-player Battleships-style game for iPhone and iPad where every shot is earned by answering a GCSE maths question correctly. You play against a computer opponent, and v1 runs fully offline with no backend.
 
 **Goals**
 

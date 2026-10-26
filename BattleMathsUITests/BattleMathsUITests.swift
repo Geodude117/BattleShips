@@ -9,7 +9,7 @@ final class BattleMathsUITests: XCTestCase {
     func testLaunchStartsWithFleetPlacement() throws {
         let app = XCUIApplication()
         app.launch()
-        XCTAssertTrue(app.navigationBars["BattleMaths"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Salvo Sums"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Place your fleet"].exists)
         XCTAssertFalse(app.buttons["Start battle"].isEnabled, "Can't start until every ship is placed")
     }
