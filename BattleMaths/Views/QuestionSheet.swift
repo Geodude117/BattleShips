@@ -78,6 +78,13 @@ struct QuestionSheet: View {
         .sensoryFeedback(trigger: model.feedback) { _, newFeedback in
             newFeedback.map { $0.isCorrect ? SensoryFeedback.success : SensoryFeedback.error }
         }
+        .onChange(of: model.feedback) { _, newFeedback in
+            guard let newFeedback else { return }
+            SoundPlayer.shared.play(newFeedback.isCorrect ? .correct : .wrong)
+            if newFeedback.unlockedSpecial {
+                SoundPlayer.shared.play(.special, after: .milliseconds(400))
+            }
+        }
     }
 
     private func background(for index: Int) -> Color {

@@ -3,6 +3,8 @@ import BattleEngine
 
 struct GameView: View {
     @State private var model = GameViewModel()
+    @AppStorage(SoundPlayer.enabledKey) private var soundEnabled = true
+    private let sounds = SoundPlayer.shared
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
@@ -32,6 +34,9 @@ struct GameView: View {
                                 Text(level.title).tag(level)
                             }
                         }
+                        Toggle(isOn: $soundEnabled) {
+                            Label("Sound effects", systemImage: soundEnabled ? "speaker.wave.2" : "speaker.slash")
+                        }
                         Button("New game", systemImage: "arrow.clockwise") {
                             model.newGame()
                         }
@@ -46,6 +51,19 @@ struct GameView: View {
             }
             .sensoryFeedback(trigger: model.lastShot) { _, shot in
                 haptic(for: shot)
+            }
+            .onChange(of: model.lastShot) { _, shot in
+                playSounds(for: shot)
+            }
+            .onChange(of: model.phase) { _, phase in
+                if phase == .won { sounds.play(.win, after: .milliseconds(600)) }
+                if phase == .lost { sounds.play(.lose, after: .milliseconds(600)) }
+            }
+            .onChange(of: model.sonarReadings) { old, new in
+                if new.count > old.count { sounds.play(.sonar) }
+            }
+            .onChange(of: model.playerBoard.ships.count) { old, new in
+                if model.phase == .placing && new > old { sounds.play(.place) }
             }
         }
     }
@@ -155,6 +173,19 @@ struct GameView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// The firing sound, then the result a moment later.
+    private func playSounds(for shot: ShotEvent?) {
+        guard let shot else { return }
+        let impact: Sound? = switch shot.result {
+        case .miss: .miss
+        case .hit: .hit
+        case .sunk: .sink
+        case .alreadyFired: nil
+        }
+        sounds.play(.fire)
+        if let impact { sounds.play(impact, after: .milliseconds(350)) }
     }
 
     private func haptic(for shot: ShotEvent?) -> SensoryFeedback? {

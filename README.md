@@ -35,3 +35,7 @@ docs/PLAN.md              Project plan
 ```
 
 The app target uses Xcode's synchronized folders, so any file you add under `BattleMaths/` or `BattleMathsUITests/` is picked up automatically.
+
+## Credits
+
+Sound effects are CC0 by [Kenney](https://kenney.nl). See [docs/CREDITS.md](docs/CREDITS.md).

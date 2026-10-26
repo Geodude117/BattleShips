@@ -108,3 +108,13 @@ final class BattleMathsUITests: XCTestCase {
         XCTAssertTrue(app.buttons["Answer a question to load ammo"].waitForExistence(timeout: 3))
     }
 }
+
+final class SoundSettingsUITests: XCTestCase {
+    @MainActor
+    func testSoundToggleIsInTheMenu() throws {
+        let app = XCUIApplication()
+        app.launch()
+        app.buttons["Game options"].tap()
+        XCTAssertTrue(app.switches["Sound effects"].waitForExistence(timeout: 3) || app.buttons["Sound effects"].exists)
+    }
+}

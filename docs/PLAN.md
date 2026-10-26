@@ -196,7 +196,7 @@ The build runs in six phases, engine first, so each phase ends with something te
 
 **Phase 5 — Polish and progress**
 
-- [ ] Haptics, sounds and hit/sink animations (haptics done; sounds still to do)
+- [ ] Haptics, sounds and hit/sink animations (haptics and sounds done; animations still to do)
 - [ ] SwiftData stats: accuracy per topic, games won
 - [x] Special weapons (Sonar, Airstrike)
 - [ ] `FractionView` and superscript rendering for powers
