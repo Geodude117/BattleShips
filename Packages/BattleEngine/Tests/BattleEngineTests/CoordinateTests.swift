@@ -1,5 +1,5 @@
 import Testing
-@testable import BattleEngine
+import BattleEngine
 
 struct CoordinateTests {
     @Test func boardHasOneHundredCells() {
@@ -26,6 +26,7 @@ struct CoordinateTests {
 
 struct ShipTypeTests {
     @Test func fleetCoversSeventeenCells() {
-        #expect(ShipType.allCases.map(\.length).reduce(0, +) == 17)
+        let totalCells = ShipType.allCases.map { $0.length }.reduce(0, +)
+        #expect(totalCells == 17)
     }
 }

@@ -32,7 +32,7 @@ The app is SwiftUI targeting iOS 17 or later. All game logic lives in a local Sw
 | UI | SwiftUI, `Grid`, `DragGesture` | Native, quick to build a tappable 10×10 board |
 | State | `@Observable` view model + state enum | Keeps logic out of views |
 | Persistence | SwiftData | Per-topic accuracy and game history |
-| Randomness | GameplayKit `GKMersenneTwisterRandomSource` | Seeded, so tests are repeatable |
+| Randomness | `SeededGenerator` (SplitMix64) in BattleEngine | Seeded, so tests are repeatable; no GameplayKit dependency |
 | Feedback | `.sensoryFeedback`, AVFoundation | Haptics and sound on hit, miss, sink |
 | Tests | Swift Testing (engine), XCUITest (flows) | Fast unit tests plus end-to-end checks |
 

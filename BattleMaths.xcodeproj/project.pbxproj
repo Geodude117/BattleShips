@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B4A100000000000000000301 /* BattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = B4A100000000000000000501 /* BattleEngine */; };
+		B4A100000000000000000302 /* BattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = B4A100000000000000000502 /* BattleEngine */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		B4A100000000000000000201 /* BattleMaths.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BattleMaths.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A100000000000000000202 /* BattleMathsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BattleMathsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4A100000000000000000203 /* BattleEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BattleEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +36,12 @@
 		B4A100000000000000000012 /* BattleMathsUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BattleMathsUITests;
+			sourceTree = "<group>";
+		};
+		B4A100000000000000000013 /* BattleEngineTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			name = BattleEngineTests;
+			path = Packages/BattleEngine/Tests/BattleEngineTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -54,6 +62,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4A100000000000000000132 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4A100000000000000000302 /* BattleEngine in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -62,6 +78,7 @@
 			children = (
 				B4A100000000000000000011 /* BattleMaths */,
 				B4A100000000000000000012 /* BattleMathsUITests */,
+				B4A100000000000000000013 /* BattleEngineTests */,
 				B4A100000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +88,7 @@
 			children = (
 				B4A100000000000000000201 /* BattleMaths.app */,
 				B4A100000000000000000202 /* BattleMathsUITests.xctest */,
+				B4A100000000000000000203 /* BattleEngineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,6 +142,29 @@
 			productReference = B4A100000000000000000202 /* BattleMathsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		B4A100000000000000000103 /* BattleEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B4A100000000000000000804 /* Build configuration list for PBXNativeTarget "BattleEngineTests" */;
+			buildPhases = (
+				B4A100000000000000000131 /* Sources */,
+				B4A100000000000000000132 /* Frameworks */,
+				B4A100000000000000000133 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B4A100000000000000000013 /* BattleEngineTests */,
+			);
+			name = BattleEngineTests;
+			packageProductDependencies = (
+				B4A100000000000000000502 /* BattleEngine */,
+			);
+			productName = BattleEngineTests;
+			productReference = B4A100000000000000000203 /* BattleEngineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -140,6 +181,9 @@
 					B4A100000000000000000102 = {
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = B4A100000000000000000101;
+					};
+					B4A100000000000000000103 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -162,6 +206,7 @@
 			targets = (
 				B4A100000000000000000101 /* BattleMaths */,
 				B4A100000000000000000102 /* BattleMathsUITests */,
+				B4A100000000000000000103 /* BattleEngineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -181,6 +226,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4A100000000000000000133 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -192,6 +244,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B4A100000000000000000121 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4A100000000000000000131 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -362,6 +421,36 @@
 			};
 			name = Release;
 		};
+		B4A100000000000000000931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geodude117.BattleEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B4A100000000000000000932 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geodude117.BattleEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -392,6 +481,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		B4A100000000000000000804 /* Build configuration list for PBXNativeTarget "BattleEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B4A100000000000000000931 /* Debug */,
+				B4A100000000000000000932 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -403,6 +501,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		B4A100000000000000000501 /* BattleEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B4A100000000000000000401 /* XCLocalSwiftPackageReference "Packages/BattleEngine" */;
+			productName = BattleEngine;
+		};
+		B4A100000000000000000502 /* BattleEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B4A100000000000000000401 /* XCLocalSwiftPackageReference "Packages/BattleEngine" */;
 			productName = BattleEngine;

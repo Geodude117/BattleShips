@@ -18,6 +18,12 @@ public enum ShipType: String, CaseIterable, Sendable, Codable {
     }
 
     public var displayName: String {
-        rawValue.capitalized
+        switch self {
+        case .carrier: "Carrier"
+        case .battleship: "Battleship"
+        case .cruiser: "Cruiser"
+        case .submarine: "Submarine"
+        case .destroyer: "Destroyer"
+        }
     }
 }

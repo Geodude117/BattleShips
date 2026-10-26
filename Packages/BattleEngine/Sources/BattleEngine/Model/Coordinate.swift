@@ -16,10 +16,24 @@ public struct Coordinate: Hashable, Sendable, Codable {
         (0..<Self.boardSize).contains(column) && (0..<Self.boardSize).contains(row)
     }
 
+    /// Column letter such as "A" or "J".
+    public var columnLetter: String {
+        String(Character(UnicodeScalar(UInt8(ascii: "A") + UInt8(column))))
+    }
+
     /// Human-readable label such as "A1" or "J10".
     public var label: String {
-        let letter = Character(UnicodeScalar(UInt8(ascii: "A") + UInt8(column)))
-        return "\(letter)\(row + 1)"
+        "\(columnLetter)\(row + 1)"
+    }
+
+    /// The up-to-four cells directly above, right, below and left, that are on the board.
+    public var neighbours: [Coordinate] {
+        [
+            Coordinate(column: column, row: row - 1),
+            Coordinate(column: column + 1, row: row),
+            Coordinate(column: column, row: row + 1),
+            Coordinate(column: column - 1, row: row)
+        ].filter(\.isOnBoard)
     }
 
     /// Every coordinate on the board, row by row.
