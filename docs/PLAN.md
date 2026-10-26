@@ -174,15 +174,15 @@ The build runs in six phases, engine first, so each phase ends with something te
 
 **Phase 2 — Question engine**
 
-- [x] `Question`, `Topic`, `Tier`, `MathText` types and `QuestionGenerator` protocol
+- [x] `Question`, `Topic`, `Tier` types and `QuestionBank` generators (proper `MathText` rendering still to do)
 - [x] Fractions and Percentages generators first, with misconception distractors
 - [x] Remaining six topic generators
 - [ ] Adaptive topic picker using accuracy weights
 
 **Phase 3 — AI opponent**
 
-- [x] `Opponent` protocol and `RandomAI`
-- [x] `HuntTargetAI`
+- [x] `AIStrategy` with random targeting
+- [x] Hunt/target strategy
 - [ ] `ProbabilityAI`
 - [x] Hidden answer accuracy per difficulty
 
@@ -192,7 +192,7 @@ The build runs in six phases, engine first, so each phase ends with something te
 - [x] Ship placement screen with tap to place, rotate and move
 - [x] Question sheet with four answer buttons and worked explanation
 - [x] `GameViewModel` state machine wiring the full turn loop
-- [x] Home and results screens
+- [x] Results screen (separate home screen still to do)
 
 **Phase 5 — Polish and progress**
 
