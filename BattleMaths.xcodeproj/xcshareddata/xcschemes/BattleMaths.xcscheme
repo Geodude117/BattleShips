@@ -47,6 +47,11 @@
                BlueprintName = "BattleMathsUITests"
                ReferencedContainer = "container:BattleMaths.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AppStoreScreenshots">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

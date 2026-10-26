@@ -6,6 +6,8 @@ A single-player Battleships game for iPhone and iPad where every shot is earned 
 
 See [docs/PLAN.md](docs/PLAN.md) for the full project plan.
 
+Ready to publish? See [docs/app-store/README.md](docs/app-store/README.md) for the App Store checklist, listing text and screenshots.
+
 > The app is called **Salvo Sums**. The Xcode project, targets and folders still use the working name `BattleMaths`, which players never see.
 
 ## Requirements

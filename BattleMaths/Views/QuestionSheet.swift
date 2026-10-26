@@ -45,6 +45,10 @@ struct QuestionSheet: View {
                         .buttonStyle(.plain)
                         .disabled(feedback != nil)
                         .accessibilityIdentifier("answer-\(index)")
+                        #if DEBUG
+                        // Lets the screenshot test pick the right answer. Never in release builds.
+                        .accessibilityValue(ScreenshotScene.requested != nil && index == question.correctIndex ? "correct" : "")
+                        #endif
                     }
                 }
 
@@ -53,6 +57,11 @@ struct QuestionSheet: View {
                         Text(feedback.isCorrect ? "Correct! +\(feedback.ammoEarned) ammo" : "Not quite.")
                             .font(.headline)
                             .foregroundStyle(feedback.isCorrect ? Color.green : Color.red)
+                        if feedback.streakBonus > 0 {
+                            Label("Includes a +\(feedback.streakBonus) streak bonus for 3 in a row", systemImage: "bolt.fill")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.orange)
+                        }
                         if feedback.unlockedSpecial {
                             Label("Special weapon unlocked!", systemImage: "sparkles")
                                 .font(.headline)

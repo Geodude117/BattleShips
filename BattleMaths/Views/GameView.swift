@@ -40,6 +40,13 @@ struct GameView: View {
                         Button("New game", systemImage: "arrow.clockwise") {
                             model.newGame()
                         }
+                        Divider()
+                        Link(destination: AppLinks.support) {
+                            Label("Help & support", systemImage: "questionmark.circle")
+                        }
+                        Link(destination: AppLinks.privacyPolicy) {
+                            Label("Privacy policy", systemImage: "hand.raised")
+                        }
                     } label: {
                         Label("Game options", systemImage: "gearshape")
                     }

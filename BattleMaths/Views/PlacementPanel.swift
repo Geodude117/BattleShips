@@ -82,8 +82,17 @@ struct PlacementPanel: View {
             model.selectShip(type)
         } label: {
             VStack(alignment: .leading, spacing: 6) {
-                Text(type.displayName)
-                    .font(.subheadline.bold())
+                HStack(spacing: 4) {
+                    Text(type.displayName)
+                        .font(.subheadline.bold())
+                        .lineLimit(1)
+                        .fixedSize()
+                    if placed {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.caption)
+                            .foregroundStyle(.green)
+                    }
+                }
                 HStack(spacing: 2) {
                     ForEach(0..<type.length, id: \.self) { _ in
                         RoundedRectangle(cornerRadius: 2)
@@ -97,13 +106,6 @@ struct PlacementPanel: View {
                 selected ? Color.accentColor.opacity(0.25) : Color.secondary.opacity(0.1),
                 in: RoundedRectangle(cornerRadius: 10)
             )
-            .overlay(alignment: .topTrailing) {
-                if placed {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
-                        .padding(4)
-                }
-            }
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("ship-\(type.rawValue)")

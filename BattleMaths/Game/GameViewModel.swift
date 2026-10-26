@@ -37,6 +37,8 @@ struct AnswerFeedback: Equatable {
     let isCorrect: Bool
     let ammoEarned: Int
     let unlockedSpecial: Bool
+    /// Extra shots from a run of correct answers, on top of the question's usual reward.
+    let streakBonus: Int
 }
 
 /// The most recent shot, used to trigger haptics.
@@ -82,6 +84,9 @@ final class GameViewModel {
 
     init() {
         newGame()
+        #if DEBUG
+        if let scene = ScreenshotScene.requested { loadScreenshotScene(scene) }
+        #endif
     }
 
     var ammo: Int { ledger.ammo }
@@ -173,11 +178,13 @@ final class GameViewModel {
         if correct { questionsCorrect += 1 }
         let chargesBefore = ledger.specialCharges
         let earned = ledger.recordAnswer(correct: correct, tier: question.tier)
+        let baseReward = question.tier == .higher ? 2 : 1
         feedback = AnswerFeedback(
             chosenIndex: index,
             isCorrect: correct,
             ammoEarned: earned,
-            unlockedSpecial: ledger.specialCharges > chargesBefore
+            unlockedSpecial: ledger.specialCharges > chargesBefore,
+            streakBonus: correct ? max(0, earned - baseReward) : 0
         )
     }
 
@@ -301,6 +308,70 @@ final class GameViewModel {
         }
         phase = .playerTurn
     }
+
+    // MARK: Screenshot scenes
+
+    #if DEBUG
+    /// Sets up a realistic mid-game position for App Store screenshots.
+    /// Launch with `-screenshots battle` or `-screenshots question`. Debug builds only.
+    func loadScreenshotScene(_ scene: ScreenshotScene) {
+        gameID += 1
+        rng = SeededGenerator(seed: 2026)
+        playerBoard = Board.randomFleet(using: &rng)
+        enemyBoard = Board.randomFleet(using: &rng)
+        ledger = AmmoLedger()
+        sonarReadings = [:]
+        log = []
+        selectedShip = nil
+        phase = .playerTurn
+
+        // Five correct answers in a row: 6 shots and a special weapon.
+        for _ in 1...5 { ledger.recordAnswer(correct: true, tier: .foundation) }
+        questionsAnswered = 6
+        questionsCorrect = 5
+
+        // Earlier turns: a few misses on both sides.
+        let enemyWater = Coordinate.all.filter { enemyBoard.ship(at: $0) == nil }.shuffled(using: &rng)
+        for cell in enemyWater.prefix(7) { _ = enemyBoard.fire(at: cell) }
+        let playerWater = Coordinate.all.filter { playerBoard.ship(at: $0) == nil }.shuffled(using: &rng)
+        for cell in playerWater.prefix(8) { _ = playerBoard.fire(at: cell) }
+        if let cruiser = playerBoard.ships.first(where: { $0.type == .cruiser }) {
+            for cell in cruiser.cells.prefix(2) { _ = playerBoard.fire(at: cell) }
+        }
+
+        // This turn: sink the Destroyer and hit the Carrier.
+        if let destroyer = enemyBoard.ships.first(where: { $0.type == .destroyer }) {
+            for cell in destroyer.cells {
+                ledger.spend()
+                _ = enemyBoard.fire(at: cell)
+            }
+        }
+        var carrierHit = Coordinate(column: 0, row: 0)
+        if let carrier = enemyBoard.ships.first(where: { $0.type == .carrier }) {
+            carrierHit = carrier.cells[1]
+            ledger.spend()
+            _ = enemyBoard.fire(at: carrierHit)
+        }
+
+        // A sonar reading next to a hidden ship.
+        if let probe = Coordinate.all.first(where: {
+            enemyBoard.ship(at: $0) == nil && enemyBoard.shots[$0] == nil && enemyBoard.sonarCount(around: $0) >= 2
+        }) {
+            sonarReadings[probe] = enemyBoard.sonarCount(around: probe)
+        }
+
+        if let lastEnemyShot = playerWater.prefix(8).last {
+            addLog("Enemy fired at \(lastEnemyShot.label): miss.")
+        }
+        addLog("You sank the Destroyer!")
+        addLog("You fired at \(carrierHit.label): hit!")
+
+        if scene == .question {
+            while ledger.ammo > 0 { ledger.spend() }
+            question = QuestionBank.make(.linearEquations, using: &rng)
+        }
+    }
+    #endif
 
     // MARK: Helpers
 
