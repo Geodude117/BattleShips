@@ -36,6 +36,19 @@ public struct Coordinate: Hashable, Sendable, Codable {
         ].filter(\.isOnBoard)
     }
 
+    /// This cell and the cells around it in a 3×3 square, clipped to the board.
+    public var square: [Coordinate] {
+        (-1...1).flatMap { dRow in
+            (-1...1).map { dColumn in Coordinate(column: column + dColumn, row: row + dRow) }
+        }
+        .filter(\.isOnBoard)
+    }
+
+    /// This cell plus its four direct neighbours, clipped to the board.
+    public var plus: [Coordinate] {
+        [self] + neighbours
+    }
+
     /// Every coordinate on the board, row by row.
     public static let all: [Coordinate] = (0..<boardSize).flatMap { row in
         (0..<boardSize).map { column in Coordinate(column: column, row: row) }

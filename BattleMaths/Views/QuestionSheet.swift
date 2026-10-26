@@ -53,6 +53,11 @@ struct QuestionSheet: View {
                         Text(feedback.isCorrect ? "Correct! +\(feedback.ammoEarned) ammo" : "Not quite.")
                             .font(.headline)
                             .foregroundStyle(feedback.isCorrect ? Color.green : Color.red)
+                        if feedback.unlockedSpecial {
+                            Label("Special weapon unlocked!", systemImage: "sparkles")
+                                .font(.headline)
+                                .foregroundStyle(.purple)
+                        }
                         Text(question.explanation)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -69,6 +74,9 @@ struct QuestionSheet: View {
                 }
             }
             .padding(24)
+        }
+        .sensoryFeedback(trigger: model.feedback) { _, newFeedback in
+            newFeedback.map { $0.isCorrect ? SensoryFeedback.success : SensoryFeedback.error }
         }
     }
 

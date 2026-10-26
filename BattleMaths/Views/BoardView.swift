@@ -8,6 +8,8 @@ struct BoardView: View {
     var isActive = false
     /// Prefix for UI-test identifiers, e.g. "enemy" gives "enemy-A1".
     var identifierPrefix = "board"
+    /// Numbers to show on cells, e.g. sonar readings.
+    var badges: [Coordinate: Int] = [:]
     var onTap: (Coordinate) -> Void = { _ in }
 
     var body: some View {
@@ -33,7 +35,8 @@ struct BoardView: View {
                             let coordinate = Coordinate(column: column, row: row)
                             CellView(
                                 state: board.state(at: coordinate),
-                                hasShip: revealShips && board.ship(at: coordinate) != nil
+                                hasShip: revealShips && board.ship(at: coordinate) != nil,
+                                badge: badges[coordinate]
                             )
                             .contentShape(Rectangle())
                             .onTapGesture { onTap(coordinate) }
@@ -56,10 +59,12 @@ struct BoardView: View {
 
     private func spokenState(at coordinate: Coordinate) -> String {
         switch board.state(at: coordinate) {
-        case .miss: "Miss"
-        case .hit: "Hit"
-        case .sunk: "Sunk"
-        case .unknown: revealShips && board.ship(at: coordinate) != nil ? "Ship" : "Water"
+        case .miss: return "Miss"
+        case .hit: return "Hit"
+        case .sunk: return "Sunk"
+        case .unknown:
+            if let reading = badges[coordinate] { return "Sonar reading \(reading)" }
+            return revealShips && board.ship(at: coordinate) != nil ? "Ship" : "Water"
         }
     }
 }
@@ -67,12 +72,22 @@ struct BoardView: View {
 struct CellView: View {
     let state: CellState
     let hasShip: Bool
+    var badge: Int? = nil
 
     var body: some View {
         RoundedRectangle(cornerRadius: 3)
             .fill(fill)
             .aspectRatio(1, contentMode: .fit)
             .overlay { marker }
+            .overlay {
+                if let badge, state == .unknown {
+                    Text("\(badge)")
+                        .font(.caption2.bold())
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.purple.opacity(0.85), in: RoundedRectangle(cornerRadius: 3))
+                }
+            }
             .animation(.easeOut(duration: 0.2), value: state)
     }
 

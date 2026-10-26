@@ -9,9 +9,14 @@ struct GameView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    StatusBar(model: model)
-                    actionArea
-                    boards
+                    if model.phase == .placing {
+                        PlacementPanel(model: model)
+                    } else {
+                        StatusBar(model: model)
+                        actionArea
+                        specialWeaponsBar
+                        boards
+                    }
                     logView
                 }
                 .padding()
@@ -39,6 +44,9 @@ struct GameView: View {
                 QuestionSheet(question: question, model: model)
                     .interactiveDismissDisabled()
             }
+            .sensoryFeedback(trigger: model.lastShot) { _, shot in
+                haptic(for: shot)
+            }
         }
     }
 
@@ -52,9 +60,10 @@ struct GameView: View {
                 title: "Enemy waters",
                 board: model.enemyBoard,
                 revealShips: model.isGameOver,
-                isActive: model.canFire,
+                isActive: model.canFire || model.armedWeapon != nil,
                 identifierPrefix: "enemy",
-                onTap: { model.fire(at: $0) }
+                badges: model.sonarReadings,
+                onTap: { model.enemyBoardTapped(at: $0) }
             )
             BoardView(
                 title: "Your fleet",
@@ -68,8 +77,14 @@ struct GameView: View {
     @ViewBuilder
     private var actionArea: some View {
         switch model.phase {
+        case .placing:
+            EmptyView()
         case .playerTurn:
-            if model.ammo > 0 {
+            if let weapon = model.armedWeapon {
+                Label(weapon.instruction, systemImage: weapon.systemImage)
+                    .font(.headline)
+                    .foregroundStyle(.orange)
+            } else if model.ammo > 0 {
                 Label("Tap enemy waters to fire (\(model.ammo) left)", systemImage: "scope")
                     .font(.headline)
                     .foregroundStyle(Color.accentColor)
@@ -105,6 +120,32 @@ struct GameView: View {
         }
     }
 
+    @ViewBuilder
+    private var specialWeaponsBar: some View {
+        if model.canUseSpecial || model.armedWeapon != nil {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Special weapons: \(model.ledger.specialCharges) ready")
+                    .font(.subheadline.bold())
+                HStack(spacing: 10) {
+                    ForEach(SpecialWeapon.allCases) { weapon in
+                        let isArmed = model.armedWeapon == weapon
+                        Button {
+                            model.arm(isArmed ? nil : weapon)
+                        } label: {
+                            Label(isArmed ? "Cancel" : weapon.displayName, systemImage: isArmed ? "xmark" : weapon.systemImage)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(isArmed ? Color.orange : Color.purple)
+                        .accessibilityIdentifier("special-\(weapon.rawValue)")
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(Color.purple.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
     private var logView: some View {
         VStack(alignment: .leading, spacing: 6) {
             ForEach(Array(model.log.enumerated()), id: \.offset) { index, entry in
@@ -114,6 +155,16 @@ struct GameView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func haptic(for shot: ShotEvent?) -> SensoryFeedback? {
+        guard let shot else { return nil }
+        switch shot.result {
+        case .sunk: return .impact(weight: .heavy, intensity: 1)
+        case .hit: return .impact(weight: .medium)
+        case .miss: return .impact(weight: .light, intensity: 0.5)
+        case .alreadyFired: return nil
+        }
     }
 }
 

@@ -159,46 +159,46 @@ The build runs in six phases, engine first, so each phase ends with something te
 
 **Phase 0 — Repo and project setup**
 
-- [ ] Create the Xcode project (SwiftUI, iOS 17, iPhone + iPad) in this repo
-- [ ] Add a Swift `.gitignore` and a README with the game concept
-- [ ] Create the local `BattleEngine` Swift package and link it to the app target
-- [ ] Set up a test plan with Swift Testing for the package
+- [x] Create the Xcode project (SwiftUI, iOS 17, iPhone + iPad) in this repo
+- [x] Add a Swift `.gitignore` and a README with the game concept
+- [x] Create the local `BattleEngine` Swift package and link it to the app target
+- [x] Set up a test plan with Swift Testing for the package
 
 **Phase 1 — Core engine**
 
-- [ ] `Coordinate`, `ShipType`, `Ship`, `Board` models
-- [ ] Placement validation (in bounds, no overlap) and random fleet placement
-- [ ] Shot resolution: miss, hit, sunk, already-fired
-- [ ] Win detection
-- [ ] `AmmoLedger` with streaks and bonus rules
+- [x] `Coordinate`, `ShipType`, `Ship`, `Board` models
+- [x] Placement validation (in bounds, no overlap) and random fleet placement
+- [x] Shot resolution: miss, hit, sunk, already-fired
+- [x] Win detection
+- [x] `AmmoLedger` with streaks and bonus rules
 
 **Phase 2 — Question engine**
 
-- [ ] `Question`, `Topic`, `Tier`, `MathText` types and `QuestionGenerator` protocol
-- [ ] Fractions and Percentages generators first, with misconception distractors
-- [ ] Remaining six topic generators
+- [x] `Question`, `Topic`, `Tier`, `MathText` types and `QuestionGenerator` protocol
+- [x] Fractions and Percentages generators first, with misconception distractors
+- [x] Remaining six topic generators
 - [ ] Adaptive topic picker using accuracy weights
 
 **Phase 3 — AI opponent**
 
-- [ ] `Opponent` protocol and `RandomAI`
-- [ ] `HuntTargetAI`
+- [x] `Opponent` protocol and `RandomAI`
+- [x] `HuntTargetAI`
 - [ ] `ProbabilityAI`
-- [ ] Hidden answer accuracy per difficulty
+- [x] Hidden answer accuracy per difficulty
 
 **Phase 4 — Playable UI**
 
-- [ ] Board view with tappable cells (hit, miss, sunk states)
-- [ ] Ship placement screen with drag, snap and rotate
-- [ ] Question sheet with four answer buttons and worked explanation
-- [ ] `GameViewModel` state machine wiring the full turn loop
-- [ ] Home and results screens
+- [x] Board view with tappable cells (hit, miss, sunk states)
+- [x] Ship placement screen with tap to place, rotate and move
+- [x] Question sheet with four answer buttons and worked explanation
+- [x] `GameViewModel` state machine wiring the full turn loop
+- [x] Home and results screens
 
 **Phase 5 — Polish and progress**
 
-- [ ] Haptics, sounds and hit/sink animations
+- [ ] Haptics, sounds and hit/sink animations (haptics done; sounds still to do)
 - [ ] SwiftData stats: accuracy per topic, games won
-- [ ] Special weapons (Sonar, Airstrike)
+- [x] Special weapons (Sonar, Airstrike)
 - [ ] `FractionView` and superscript rendering for powers
 - [ ] TestFlight build
 

@@ -8,6 +8,7 @@ public struct Board: Sendable {
     // MARK: Placement
 
     public func canPlace(_ ship: Ship) -> Bool {
+        guard !ships.contains(where: { $0.type == ship.type }) else { return false }
         let occupied = Set(ships.flatMap(\.cells))
         return ship.cells.allSatisfy { $0.isOnBoard && !occupied.contains($0) }
     }
@@ -17,6 +18,22 @@ public struct Board: Sendable {
         guard canPlace(ship) else { return false }
         ships.append(ship)
         return true
+    }
+
+    /// Takes a ship back off the board so it can be placed again. Only allowed before any shots are fired.
+    @discardableResult
+    public mutating func remove(_ type: ShipType) -> Ship? {
+        guard shots.isEmpty, let index = ships.firstIndex(where: { $0.type == type }) else { return nil }
+        return ships.remove(at: index)
+    }
+
+    /// Ship types not yet on the board, in fleet order.
+    public var unplacedTypes: [ShipType] {
+        ShipType.allCases.filter { type in !ships.contains { $0.type == type } }
+    }
+
+    public var isFleetComplete: Bool {
+        unplacedTypes.isEmpty
     }
 
     /// A board with the full fleet placed at random, never overlapping or off the edge.
@@ -65,6 +82,11 @@ public struct Board: Sendable {
 
     public var allSunk: Bool {
         !ships.isEmpty && ships.allSatisfy { isSunk($0) }
+    }
+
+    /// Sonar: how many ship sections that haven't been hit yet are inside the 3×3 square around `centre`.
+    public func sonarCount(around centre: Coordinate) -> Int {
+        centre.square.filter { shots[$0] == nil && ship(at: $0) != nil }.count
     }
 
     public func state(at coordinate: Coordinate) -> CellState {
